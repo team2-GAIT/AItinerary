@@ -1,18 +1,17 @@
 .navbar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #333;
-    height: 60px;
-    padding: 0 20px;
-  }
-  
-  .navbar-logo {
-    text-align: center;
-  }
-  
-  .logo {
-    height: 40px;
-    cursor: pointer;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #9EE0F7;
+  height: 60px;
+  padding: 0 20px;
+}
+
+.navbar-logo {
+  text-align: center;
+}
+
+.logo {
+  height: 40px;
+  cursor: pointer;
+}
