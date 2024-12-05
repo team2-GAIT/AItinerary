@@ -1,0 +1,19 @@
+.flight-search {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  
+  .flight-search label {
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  .flight-search input {
+    margin-bottom: 12px;
+  }
+  
+  .flight-search button {
+    margin-top: 12px;
+  }
+  
