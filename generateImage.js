@@ -1,7 +1,11 @@
 const axios = require('axios');
 const readline = require('readline');
 
-const openAIApiKey = "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";
+require('dotenv').config({ 
+    path: 'C:\\Users\\13sha\\Documents\\GitHub\\AItinerary\\AItinerary\\client\\.env.keys' 
+  });
+
+const openAIApiKey = process.env.OPENAI_API_KEY;
 
 const generateImage = async (prompt) => {
     try {
