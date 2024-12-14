@@ -1,0 +1,15 @@
+/* client/src/styles/GeneratedTrip.css */
+.generatedTrip {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  
+  .description, .activities {
+    margin-bottom: 20px;
+  }
+  
+  .activities ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
