@@ -59,7 +59,7 @@ app.post("/api/generate-image", async (req, res) => {
 
 // Endpoint to generate music
 app.post("/api/generate-music", async (req, res) => {
-  const { prompt, duration = 30 } = req.body; // Set default duration to 30 seconds
+  const { prompt, duration = 25 } = req.body; // Set default duration to 25
   try {
     const response = await axios.post(
       "https://api.replicate.com/v1/predictions",
@@ -86,11 +86,13 @@ app.post("/api/generate-music", async (req, res) => {
         }
       );
       status = pollResponse.data.status;
+      // Inside the while loop after status === "succeeded":
       if (status === "succeeded") {
-        const audioUrl = pollResponse.data.output[0];
+        console.log("Poll Response Data:", pollResponse.data); 
+        const audioUrl = pollResponse.data.output; // Removed [0]
 
         // Validate the audio URL
-        if (!audioUrl || !audioUrl.startsWith("http")) {
+        if (!audioUrl || !audioUrl.startsWith("https")) {
           console.error("Invalid URL received:", audioUrl);
           res.status(500).json({ error: 'Invalid URL received for music.' });
           return;
@@ -104,6 +106,7 @@ app.post("/api/generate-music", async (req, res) => {
         res.json({ audioPath: "/generated_music.wav" });
         return;
       }
+
     }
 
     if (status === "failed") {
