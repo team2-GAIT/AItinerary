@@ -1,4 +1,3 @@
-// client/src/pages/Homepage.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../styles/Homepage.css";
@@ -11,17 +10,44 @@ function Homepage() {
     const [interests, setInterests] = useState('');
     const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         if (location && (destination || randomDestination)) {
-            navigate('/generated-trip', {
-                state: {
-                    location,
-                    destination: randomDestination ? 'RANDOM' : destination,
-                    modeOfTravel,
-                    interests
-                }
-            });
+            const dest = randomDestination ? 'RANDOM' : destination;
+            try {
+                // Fetch itinerary and airport codes
+                const response = await fetch('/api/generate-itinerary', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        travelDetails: {
+                            destination: dest,
+                            interests,
+                        },
+                        modeOfTravel,
+                        source: location
+                    }),
+                });
+                const data = await response.json();
+
+                navigate('/generated-trip', {
+                    state: {
+                        location,
+                        destination: dest,
+                        modeOfTravel,
+                        interests,
+                        sourceAirportCode: data.sourceAirportCode.trim(),
+                        destinationAirportCode: data.destinationAirportCode.trim(),
+                        description: data.description.trim(),
+                        activities: data.activities.map(activity => activity.trim())
+                    }
+                });
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                alert('Failed to generate trip. Please try again.');
+            }
         } else {
             alert('Please fill in all required fields.');
         }
