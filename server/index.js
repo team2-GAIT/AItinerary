@@ -10,14 +10,16 @@ app.use(cors());
 app.use(express.json()); // To parse JSON bodies
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
+const RAPIDAPI_HOST = "sky-scanner3.p.rapidapi.com";
 
 // OpenAI endpoint using Chat Completions API
 app.post("/api/generate-itinerary", async (req, res) => {
-  const { travelDetails, modeOfTravel, source } = req.body;
+  const { travelDetails, modeOfTravel, source, date } = req.body;
   const { destination, interests } = travelDetails;
 
-  if (!destination || !interests || !source) {
-    return res.status(400).json({ error: "Missing source, destination, or interests." });
+  if (!destination || !interests || !source || !date) {
+    return res.status(400).json({ error: "Missing source, destination, interests, or date." });
   }
 
   try {
@@ -62,7 +64,7 @@ Relax at a charming sidewalk café near the Eiffel Tower
 Do not include extra text, disclaimers, or the interests/destination in the activities beyond the initial description. Follow this exact formatting every time.
 `;
 
-    const response = await axios.post(
+    const openAIResponse = await axios.post(
       'https://api.openai.com/v1/chat/completions',
       {
         model: "gpt-4",
@@ -83,7 +85,7 @@ Do not include extra text, disclaimers, or the interests/destination in the acti
     );
 
     // Extract the assistant's reply
-    const result = response.data.choices[0].message.content.trim();
+    const result = openAIResponse.data.choices[0].message.content.trim();
     const parts = result.split('###').map(part => part.trim());
 
     if (parts.length !== 8) {
@@ -96,6 +98,36 @@ Do not include extra text, disclaimers, or the interests/destination in the acti
   } catch (error) {
     console.error('Error fetching from OpenAI:', error.response ? error.response.data : error.message);
     res.status(500).json({ error: 'Failed to generate itinerary.' });
+  }
+});
+
+app.get("/api/flights", async (req, res) => {
+  const { source, destination, date } = req.query;
+
+  if (!source || !destination || !date) {
+    return res.status(400).json({ error: "Missing required query parameters." });
+  }
+
+  try {
+    const response = await axios.get(
+      `https://${RAPIDAPI_HOST}/flights/search-one-way`,
+      {
+        params: {
+          fromEntityId: source,
+          toEntityId: destination,
+          departDate: date,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          "X-RapidAPI-Key": RAPIDAPI_KEY,
+          "X-RapidAPI-Host": RAPIDAPI_HOST,
+        },
+      }
+    );
+    res.json(response.data.data);
+  } catch (error) {
+    console.error("Error fetching data from Skyscanner API:", error);
+    res.status(500).json({ error: "Failed to fetch data from API." });
   }
 });
 
