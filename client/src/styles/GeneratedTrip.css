@@ -1,20 +1,43 @@
 .generatedTrip {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
 }
 
-.tripDetails, .flightDetails {
-  width: 45%;
+.tripDetails {
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .description, .activities {
   margin-bottom: 20px;
 }
 
-.activities ul, .flightDetails ul {
+.activities ul {
   list-style-type: disc;
   padding-left: 20px;
+}
+
+.flightDetails {
+  width: 100%;
+  max-height: 37.5vh; /* Increase height by 1.5x */
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.flightDetails ul {
+  list-style-type: none; /* Remove bullet points */
+  padding-left: 0;
+}
+
+.flightDetails li {
+  border: 1px solid #333; /* Add border to each flight */
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px; /* Add space between flights */
+  background-color: #f9f9f9;
+  color: #000; /* Change text color to black */
 }
 
 .loader {
@@ -180,4 +203,15 @@
     box-shadow: inset 0 0 10px 2px rgba(0, 255, 182, 0.5),
       0 0 5px 2px rgba(0, 255, 135, 0.3);
   }
+}
+
+.imageContainer {
+  width: 100%;
+  text-align: center;
+}
+
+.imageContainer img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
 }

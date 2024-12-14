@@ -53,7 +53,8 @@ body {
 }
 
 .features input,
-.features select {
+.features select,
+.features textarea {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
@@ -96,6 +97,7 @@ body {
   display: block;
   width: 9.375em;
   height: 9.375em;
+  background-color: #014255; /* Match the homepage background color */
 }
 
 .pl__arrows,

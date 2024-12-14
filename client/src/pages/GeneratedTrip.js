@@ -71,6 +71,9 @@ const GeneratedTrip = () => {
           </ul>
         )}
       </div>
+      <div className="imageContainer">
+        <img src="/testimage.jpg" alt="Trip" />
+      </div>
     </div>
   );
 };

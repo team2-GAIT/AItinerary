@@ -63,59 +63,6 @@ function Homepage() {
     return (
         <div className="homepage">
             <form onSubmit={handleSubmit}>
-                <div className="input-group">
-                    <label>Your Location:</label>
-                    <input 
-                        type="text" 
-                        value={location} 
-                        onChange={(e) => setLocation(e.target.value)} 
-                        required 
-                    />
-                </div>
-                <div className="input-group">
-                    <label>Destination:</label>
-                    <input 
-                        type="text" 
-                        value={destination} 
-                        onChange={(e) => setDestination(e.target.value)} 
-                        disabled={randomDestination}
-                        required={!randomDestination}
-                    />
-                    <label>
-                        <input 
-                            type="checkbox" 
-                            checked={randomDestination} 
-                            onChange={(e) => setRandomDestination(e.target.checked)} 
-                        />
-                        Random Destination
-                    </label>
-                </div>
-                <div className="input-group">
-                    <label>Mode of Travel:</label>
-                    <select value={modeOfTravel} onChange={(e) => setModeOfTravel(e.target.value)}>
-                        <option value="car">Car</option>
-                        <option value="train">Train</option>
-                        <option value="flight">Flight</option>
-                    </select>
-                </div>
-                <div className="input-group">
-                    <label>Interests:</label>
-                    <textarea 
-                        value={interests} 
-                        onChange={(e) => setInterests(e.target.value)} 
-                        placeholder="e.g., museums, hiking, food tours"
-                        required 
-                    />
-                </div>
-                <div className="input-group">
-                    <label>Date (YYYY-MM-DD):</label>
-                    <input 
-                        type="date" 
-                        value={date} 
-                        onChange={(e) => setDate(e.target.value)} 
-                        required 
-                    />
-                </div>
                 <button type="submit" className="generateTrip" disabled={loading}>
                     {loading ? (
                         <svg className="pl" viewBox="0 0 160 160" width="160px" height="160px" xmlns="http://www.w3.org/2000/svg">
@@ -186,6 +133,61 @@ function Homepage() {
                         'Generate Trip'
                     )}
                 </button>
+                <div className="features">
+                    <div className="input-group">
+                        <label>Your Location:</label>
+                        <input 
+                            type="text" 
+                            value={location} 
+                            onChange={(e) => setLocation(e.target.value)} 
+                            required 
+                        />
+                    </div>
+                    <div className="input-group">
+                        <label>Destination:</label>
+                        <input 
+                            type="text" 
+                            value={destination} 
+                            onChange={(e) => setDestination(e.target.value)} 
+                            disabled={randomDestination}
+                            required={!randomDestination}
+                        />
+                        <label>
+                            <input 
+                                type="checkbox" 
+                                checked={randomDestination} 
+                                onChange={(e) => setRandomDestination(e.target.checked)} 
+                            />
+                            Random Destination
+                        </label>
+                    </div>
+                    <div className="input-group">
+                        <label>Mode of Travel:</label>
+                        <select value={modeOfTravel} onChange={(e) => setModeOfTravel(e.target.value)}>
+                            <option value="car">Car</option>
+                            <option value="train">Train</option>
+                            <option value="flight">Flight</option>
+                        </select>
+                    </div>
+                    <div className="input-group">
+                        <label>Interests:</label>
+                        <textarea 
+                            value={interests} 
+                            onChange={(e) => setInterests(e.target.value)} 
+                            placeholder="e.g., museums, hiking, food tours"
+                            required 
+                        />
+                    </div>
+                    <div className="input-group">
+                        <label>Date (YYYY-MM-DD):</label>
+                        <input 
+                            type="date" 
+                            value={date} 
+                            onChange={(e) => setDate(e.target.value)} 
+                            required 
+                        />
+                    </div>
+                </div>
             </form>
         </div>
     );
