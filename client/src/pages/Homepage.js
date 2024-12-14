@@ -36,6 +36,26 @@ function Homepage() {
                 });
                 const data = await response.json();
 
+                // Fetch generated image
+                const imageResponse = await fetch('/api/generate-image', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ prompt: `A beautiful view of ${dest}` }),
+                });
+                const imageData = await imageResponse.json();
+
+                // Fetch generated music
+                const musicResponse = await fetch('/api/generate-music', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ prompt: `Music inspired by ${dest}` }),
+                });
+                const musicData = await musicResponse.json();
+
                 navigate('/generated-trip', {
                     state: {
                         location,
@@ -46,7 +66,9 @@ function Homepage() {
                         destinationAirportCode: data.destinationAirportCode.trim(),
                         description: data.description.trim(),
                         activities: data.activities.map(activity => activity.trim()),
-                        date
+                        date,
+                        imagePath: imageData.imagePath,
+                        audioPath: musicData.audioPath
                     }
                 });
             } catch (error) {

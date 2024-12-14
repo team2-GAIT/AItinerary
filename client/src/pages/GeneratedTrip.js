@@ -4,7 +4,7 @@ import '../styles/GeneratedTrip.css';
 
 const GeneratedTrip = () => {
   const location = useLocation();
-  const { location: userLocation, destination, modeOfTravel, interests, sourceAirportCode, destinationAirportCode, description, activities, date } = location.state || {};
+  const { location: userLocation, destination, modeOfTravel, interests, sourceAirportCode, destinationAirportCode, description, activities, date, imagePath, audioPath } = location.state || {};
   const [flights, setFlights] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -72,8 +72,9 @@ const GeneratedTrip = () => {
         )}
       </div>
       <div className="imageContainer">
-        <img src="/testimage.jpg" alt="Trip" />
+        {imagePath ? <img src={imagePath} alt="Generated View" /> : <p>Loading image...</p>}
       </div>
+      {audioPath && <audio src={audioPath} autoPlay loop />}
     </div>
   );
 };

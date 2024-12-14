@@ -1,6 +1,8 @@
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
+const fs = require("fs");
+const path = require("path");
 require('dotenv').config();
 
 const PORT = process.env.PORT || 3001;
@@ -11,9 +13,109 @@ app.use(express.json()); // To parse JSON bodies
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
+const MUSIC_API_KEY = process.env.MUSIC_API_KEY;
 const RAPIDAPI_HOST = "sky-scanner3.p.rapidapi.com";
 
-// OpenAI endpoint using Chat Completions API
+// Serve the public directory
+app.use(express.static(path.join(__dirname, "public")));
+
+// Ensure the public directory exists
+const publicDir = path.join(__dirname, "public");
+if (!fs.existsSync(publicDir)) {
+  fs.mkdirSync(publicDir);
+}
+
+// Endpoint to generate image
+app.post("/api/generate-image", async (req, res) => {
+  const { prompt } = req.body;
+  try {
+    const response = await axios.post(
+      "https://api.openai.com/v1/images/generations",
+      {
+        prompt: prompt,
+        n: 1,
+        size: "1024x1024",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${OPENAI_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const imageUrl = response.data.data[0].url;
+
+    // Download the image
+    const imageResponse = await axios.get(imageUrl, { responseType: "arraybuffer" });
+    const imagePath = path.join(publicDir, "generated_image.png");
+    fs.writeFileSync(imagePath, Buffer.from(imageResponse.data));
+
+    res.json({ imagePath: "/generated_image.png" });
+  } catch (error) {
+    console.error("Error generating image:", error.response?.data || error.message);
+    res.status(500).json({ error: 'Failed to generate image.' });
+  }
+});
+
+// Endpoint to generate music
+app.post("/api/generate-music", async (req, res) => {
+  const { prompt, duration = 30 } = req.body; // Set default duration to 30 seconds
+  try {
+    const response = await axios.post(
+      "https://api.replicate.com/v1/predictions",
+      {
+        version: "7a76a8258b23fae65c5a22debb8841d1d7e816b75c2f24218cd2bd8573787906",
+        input: { prompt: prompt, duration: duration },
+      },
+      {
+        headers: {
+          Authorization: `Token ${MUSIC_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const prediction = response.data;
+    let status = prediction.status;
+    while (status !== "succeeded" && status !== "failed") {
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      const pollResponse = await axios.get(
+        `https://api.replicate.com/v1/predictions/${prediction.id}`,
+        {
+          headers: { Authorization: `Token ${MUSIC_API_KEY}` },
+        }
+      );
+      status = pollResponse.data.status;
+      if (status === "succeeded") {
+        const audioUrl = pollResponse.data.output[0];
+
+        // Validate the audio URL
+        if (!audioUrl || !audioUrl.startsWith("http")) {
+          console.error("Invalid URL received:", audioUrl);
+          res.status(500).json({ error: 'Invalid URL received for music.' });
+          return;
+        }
+
+        // Download the audio file
+        const audioResponse = await axios.get(audioUrl, { responseType: "arraybuffer" });
+        const audioPath = path.join(publicDir, "generated_music.wav");
+        fs.writeFileSync(audioPath, Buffer.from(audioResponse.data));
+
+        res.json({ audioPath: "/generated_music.wav" });
+        return;
+      }
+    }
+
+    if (status === "failed") {
+      res.status(500).json({ error: 'Music generation failed.' });
+    }
+  } catch (error) {
+    console.error("Error generating music:", error.response?.data || error.message);
+    res.status(500).json({ error: 'Failed to generate music.' });
+  }
+});
+
+// Existing OpenAI endpoint
 app.post("/api/generate-itinerary", async (req, res) => {
   const { travelDetails, modeOfTravel, source, date } = req.body;
   const { destination, interests } = travelDetails;
