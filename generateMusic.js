@@ -1,7 +1,11 @@
 const axios = require('axios');
 const fs = require('fs');
 
-const replicateApiKey = "r8_6UPfSJE6D0OwglJNEwMmU5iBrWjluG91jYb3O";
+require('dotenv').config({ 
+    path: 'C:\\Users\\13sha\\Documents\\GitHub\\AItinerary\\AItinerary\\client\\.env.keys' 
+  });
+  
+const replicateApiKey = process.env.REPLICATE_API_KEY;
 
 const generateMusic = async (prompt, duration = 10) => {
     try {
