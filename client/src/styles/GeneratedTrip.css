@@ -3,41 +3,72 @@
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  background-color: #9DE1F7;
+  min-height: 100vh;
 }
 
 .tripDetails {
   width: 100%;
+  max-width: 800px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
+}
+
+.tripDetails h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .description, .activities {
   margin-bottom: 20px;
 }
 
+.description h2, .activities h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
 .activities ul {
   list-style-type: disc;
   padding-left: 20px;
+  list-style-position: inside; /* Align bullet points with text */
+}
+
+.activities li {
+  margin-bottom: 10px;
 }
 
 .flightDetails {
   width: 100%;
-  max-height: 37.5vh; /* Increase height by 1.5x */
-  overflow-y: auto;
+  max-width: 800px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
 }
 
+.flightDetails h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
 .flightDetails ul {
-  list-style-type: none; /* Remove bullet points */
+  list-style-type: none;
   padding-left: 0;
 }
 
 .flightDetails li {
-  border: 1px solid #333; /* Add border to each flight */
+  border: 1px solid #333;
   border-radius: 5px;
   padding: 10px;
-  margin-bottom: 10px; /* Add space between flights */
+  margin-bottom: 10px;
   background-color: #f9f9f9;
-  color: #000; /* Change text color to black */
+  color: #000;
 }
 
 .loader {
@@ -112,102 +143,22 @@
   }
 }
 
-.dot {
-  width: 5px;
-  height: 5px;
-  position: absolute;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255);
-  box-shadow: inset 0px 0px 10px 2px rgba(0, 255, 182, 0.5),
-    0px 0px 10px 2px rgba(0, 255, 135, 0.3);
-  animation: fly 32s linear infinite;
+.error {
+  color: red;
+  text-align: center;
 }
 
-#dot-1 {
-  --dot-start-top: 100px;
-  --dot-start-left: 140px;
-  --dot-end-top: 130px;
-  --dot-end-left: 20px;
-  --delay: 0s;
-}
-
-#dot-2 {
-  --dot-start-top: 100px;
-  --dot-start-left: 0px;
-  --dot-end-top: -3px;
-  --dot-end-left: 90px;
-  --delay: 0s;
-}
-
-#dot-3 {
-  --dot-start-top: 100px;
-  --dot-start-left: 105px;
-  --dot-end-top: 18px;
-  --dot-end-left: 18px;
-  --delay: 0s;
-}
-
-#dot-4 {
-  --dot-start-top: 110px;
-  --dot-start-left: 150px;
-  --dot-end-top: 140px;
-  --dot-end-left: 30px;
-  --delay: 0s;
-}
-
-#dot-5 {
-  --dot-start-top: -5px;
-  --dot-start-left: 85px;
-  --dot-end-top: 125px;
-  --dot-end-left: 120px;
-  --delay: 4s;
-}
-
-@keyframes fly {
-  0% {
-    top: var(--dot-start-top);
-    left: var(--dot-start-left);
-  }
-
-  100% {
-    top: var(--dot-end-top);
-    left: var(--dot-end-left);
-  }
-
-  5%,
-  15%,
-  25%,
-  35%,
-  45%,
-  55%,
-  65%,
-  75%,
-  85%,
-  95% {
-    background: rgba(255, 255, 255, 1);
-    box-shadow: inset 0 0 10px 2px rgba(0, 255, 182, 0.5),
-      0 0 15px 2px rgba(0, 255, 135, 1);
-  }
-
-  0%,
-  10%,
-  20%,
-  30%,
-  40%,
-  50%,
-  60%,
-  70%,
-  80%,
-  90% {
-    background: rgba(255, 255, 255, 0.3);
-    box-shadow: inset 0 0 10px 2px rgba(0, 255, 182, 0.5),
-      0 0 5px 2px rgba(0, 255, 135, 0.3);
-  }
+.map {
+  width: 100%;
+  height: 400px;
+  margin-bottom: 20px;
 }
 
 .imageContainer {
   width: 100%;
+  max-width: 800px;
   text-align: center;
+  margin-bottom: 20px;
 }
 
 .imageContainer img {

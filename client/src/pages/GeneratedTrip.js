@@ -91,7 +91,7 @@ const GeneratedTrip = () => {
           <p>{description}</p>
         </div>
         <div className="activities">
-          <h2>Activities:</h2>
+          <h2>Activities</h2>
           <ul>
             {activities.map((activity, index) => (
               <li key={index}>{activity}</li>
@@ -112,7 +112,7 @@ const GeneratedTrip = () => {
               <div id="dot-5" className="dot"></div>
             </div>
           ) : error ? (
-            <p style={{ color: 'red' }}>{error}</p>
+            <p className="error">{error}</p>
           ) : flights.length === 0 ? (
             <p>No flight information available.</p>
           ) : (
@@ -129,8 +129,7 @@ const GeneratedTrip = () => {
           )}
         </div>
       ) : (
-        // If not flight mode, show the map
-        <div id="map" style={{ height: '400px', width: '100%' }}></div>
+        <div id="map" className="map"></div>
       )}
       <div className="imageContainer">
         {imagePath ? <img src={imagePath} alt="Generated View" /> : <p>Loading image...</p>}

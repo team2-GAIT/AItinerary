@@ -3,8 +3,9 @@
   justify-content: center;
   align-items: center;
   background-color: #9EE0F7;
-  height: 60px;
+  height: 100px;
   padding: 0 20px;
+  margin-bottom: 0;
 }
 
 .navbar-logo {
@@ -12,6 +13,6 @@
 }
 
 .logo {
-  height: 40px;
+  height: 100px;
   cursor: pointer;
 }

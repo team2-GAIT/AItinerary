@@ -18,7 +18,6 @@ function Homepage() {
             setLoading(true);
             const dest = randomDestination ? 'RANDOM' : destination;
             try {
-                // Fetch itinerary and airport codes
                 const response = await fetch('/api/generate-itinerary', {
                     method: 'POST',
                     headers: {
@@ -83,66 +82,80 @@ function Homepage() {
     };
 
     return (
-        <div className="homepage">
-            <form onSubmit={handleSubmit}>
-                <button type="submit" className="generateTrip" disabled={loading}>
-                    {loading ? 'Generating...' : 'Generate Trip'}
-                </button>
-                <div className="features">
-                    <div className="input-group">
-                        <label>Your Location:</label>
-                        <input 
-                            type="text" 
-                            value={location} 
-                            onChange={(e) => setLocation(e.target.value)} 
-                            required 
-                        />
-                    </div>
-                    <div className="input-group">
-                        <label>Destination:</label>
-                        <input 
-                            type="text" 
-                            value={destination} 
-                            onChange={(e) => setDestination(e.target.value)} 
-                            disabled={randomDestination}
-                            required={!randomDestination}
-                        />
-                        <label>
-                            <input 
-                                type="checkbox" 
-                                checked={randomDestination} 
-                                onChange={(e) => setRandomDestination(e.target.checked)} 
+        <div className="homepage-container">
+            <form onSubmit={handleSubmit} className="form-container">
+                <h1 className="form-title">Travel Itinerary Generator</h1>
+                <div className="form-group">
+                    <label className="form-label">Location</label>
+                    <input
+                        type="text"
+                        value={location}
+                        onChange={(e) => setLocation(e.target.value)}
+                        className="form-input"
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label className="form-label">Destination</label>
+                    <input
+                        type="text"
+                        value={destination}
+                        onChange={(e) => setDestination(e.target.value)}
+                        className="form-input"
+                        disabled={randomDestination}
+                        required={!randomDestination}
+                    />
+                    <div className="form-checkbox-group">
+                        <label className="form-checkbox-label">
+                            <input
+                                type="checkbox"
+                                checked={randomDestination}
+                                onChange={(e) => setRandomDestination(e.target.checked)}
+                                className="form-checkbox"
                             />
-                            Random Destination
+                            <span className="form-checkbox-text">Random Destination</span>
                         </label>
                     </div>
-                    <div className="input-group">
-                        <label>Mode of Travel:</label>
-                        <select value={modeOfTravel} onChange={(e) => setModeOfTravel(e.target.value)}>
-                            <option value="car">Car</option>
-                            <option value="train">Train</option>
-                            <option value="flight">Flight</option>
-                        </select>
-                    </div>
-                    <div className="input-group">
-                        <label>Interests:</label>
-                        <textarea 
-                            value={interests} 
-                            onChange={(e) => setInterests(e.target.value)} 
-                            placeholder="e.g., museums, hiking, food tours"
-                            required 
-                        />
-                    </div>
-                    <div className="input-group">
-                        <label>Date (YYYY-MM-DD):</label>
-                        <input 
-                            type="date" 
-                            value={date} 
-                            onChange={(e) => setDate(e.target.value)} 
-                            required 
-                        />
-                    </div>
                 </div>
+                <div className="form-group">
+                    <label className="form-label">Mode of Travel</label>
+                    <select
+                        value={modeOfTravel}
+                        onChange={(e) => setModeOfTravel(e.target.value)}
+                        className="form-select"
+                    >
+                        <option value="car">Car</option>
+                        <option value="plane">Plane</option>
+                        <option value="train">Train</option>
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label className="form-label">Interests</label>
+                    <textarea
+                        value={interests}
+                        onChange={(e) => setInterests(e.target.value)}
+                        className="form-input"
+                        placeholder="e.g., museums, hiking, food tours"
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label className="form-label">Date</label>
+                    <input
+                        type="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        className="form-input"
+                        required
+                    />
+                </div>
+                <button
+                    type="submit"
+                    className={`form-button ${loading ? 'form-button-loading' : ''}`}
+                    disabled={loading}
+                >
+                    {loading ? 'Loading...' : 'Generate Itinerary'}
+                </button>
             </form>
         </div>
     );
