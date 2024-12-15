@@ -59,7 +59,7 @@ app.post("/api/generate-image", async (req, res) => {
 
 // Endpoint to generate music
 app.post("/api/generate-music", async (req, res) => {
-  const { prompt, duration = 25 } = req.body; // Set default duration to 25
+  const { prompt, duration = 5 } = req.body; // Set default duration to 25
   try {
     const response = await axios.post(
       "https://api.replicate.com/v1/predictions",
